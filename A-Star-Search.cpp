@@ -7,8 +7,15 @@ using namespace std;
 
 int main()
 {
-	vector<vector<int>> boards(5);
+     // Create 2d Board - Grid
+	 vector<vector<int>> board = { {0, 1, 0, 0, 0, 0},
+		                           {0, 1, 0, 0, 0, 0},
+		                           {0, 1, 0, 0, 0, 0},
+		                           {0, 1, 0, 0, 0, 0},
+		                           {0, 1, 0, 0, 0, 0} };
 
+
+	 printBoard(board);
 
 	return 0;
 }
