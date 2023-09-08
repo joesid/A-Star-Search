@@ -11,7 +11,7 @@
 using namespace std;
 
 void printBoard(vector<vector<int>>& grid);
-void ReadBoardFile(const std::string& filePath);
+void ReadBoardFile(const string& filePath);
 
 void printBoard(vector<vector<int>>& grid)
 {
@@ -28,15 +28,19 @@ void printBoard(vector<vector<int>>& grid)
 	cout << endl;
 }
 
-void ReadBoardFile(const std::string& filePath) {
-    ifstream file(filePath); //open the file for reading
+void ReadBoardFile(const string& filePath) {
+    //Open the file for reading
+    ifstream inputFile(filePath);
 
-    if (file) {
-         string line;
-        while (std::getline(file, line)) {
-            cout << line << "\n";
-        }
-    } else {
-        cerr << "Error opening file: " << filePath << endl;
+    if (!inputFile.is_open()) {
+        cerr << "Failed to open the file. " << endl;
     }
+
+    string line;
+
+    while (getline(inputFile, line)) {
+        cout << line << endl;
+    }
+
+    inputFile.close();
 }
