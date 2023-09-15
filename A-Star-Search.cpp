@@ -70,11 +70,16 @@ vector<int> ParseLine(const string& line) {
     char comma;
 
     int num;
-    while (iss >> num >> comma) {
+    while (iss >> num) {
         result.push_back(num);
 
-        if (iss >> num) {
-            result.push_back(num);
+        if (iss >> comma) {
+            if(comma != ',')
+            {
+                 cerr << "Error: Expected comma but found " << comma << " '.'" << endl;
+                 break; //Handle error and exit the loop
+            }
+
         }
     }
 
