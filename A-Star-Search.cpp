@@ -7,21 +7,12 @@ using namespace std;
 
 int main()
 {
-     // Create 2d Board - Grid
-	 vector<vector<int>> board = { {0, 1, 0, 0, 0, 0},
-		                           {0, 1, 0, 0, 0, 0},
-		                           {0, 1, 0, 0, 0, 0},
-		                           {0, 1, 0, 0, 0, 0},
-		                           {0, 1, 0, 0, 0, 0} };
-
-     printBoard(board);
-    cout << " " << endl;
-    ReadBoardFile("1.board");
+    printBoard(ReadBoardFile("1.board"));
 
 	return 0;
 }
 
-void printBoard(vector<vector<int>>& grid)
+void printBoard(vector<vector<State>> grid)
 {
     // Prints Vector of Vector ints in 2d Board Format
     for (size_t i = 0; i < grid.size(); ++i)
@@ -29,50 +20,60 @@ void printBoard(vector<vector<int>>& grid)
         cout << " " << endl;
         for (size_t j = 0; j < grid[i].size(); ++j)
         {
-            cout << grid[i][j] << " ";
+            // Call CellString to convert State enum values to strings and print them.
+            cout << CellString(grid[i][j]) << " ";
         }
     }
 
     cout << endl;
 }
 
-void ReadBoardFile(const string& filePath) {
+
+
+vector<vector<State>> ReadBoardFile(const string& filePath) {
+
+    vector<vector<State>> board{};
+
     //Open the file for reading
     ifstream inputFile(filePath);
 
     if (!inputFile.is_open()) {
         cerr << "Failed to open the file. checking directory location might help " << endl;
+
     }
+     
 
     string line;
 
     while (getline(inputFile, line)) {
 
-        vector<int> parsedData = ParseLine(line);
-        //istringstream iss(line);
+        vector<State> parsedData = ParseLine(line);
 
-        //string content = iss.str();
-        //cout << content << endl;
-
-        for(int num: parsedData) {
-            cout << num << " " ;
-        }
-        cout << "\n" ;
+        board.push_back(parsedData);
     }
 
-
     inputFile.close();
+
+    return board;
 }
 
-vector<int> ParseLine(const string& line) {
-    vector<int> result;
+vector<State> ParseLine(string line) {
+
+    vector<State> result;
     istringstream iss(line);
     char comma;
 
     int num;
     while (iss >> num) {
-        result.push_back(num);
-
+        // Depending on the value in the line, add kEmpty or kObstacle to the result.
+        if (num == 0)
+        {
+            result.push_back(kEmpty);
+        }
+        else
+        {
+            result.push_back(kObstacle);
+        }
         if (iss >> comma) {
             if(comma != ',')
             {

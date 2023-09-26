@@ -11,17 +11,19 @@
 
 using namespace std;
 
-void printBoard(vector<vector<int>>& grid);
-void ReadBoardFile(const string& filePath);
-vector<int> ParseLine(const string& line);
+enum State {
+    // Define an enumeration to represent states in the grid.
+    kEmpty,
+    kObstacle
+};
+
+void printBoard(vector<vector<State>> board);
+vector<vector<State>> ReadBoardFile(const string& filePath);
+vector<State> ParseLine(string line);
 
 
 
- enum State {
-     kEmpty,
-     kObstacle
- };
-
+// Function to convert State enum values to strings for display.
  string CellString(State val)
  {
      if (val == kObstacle )
