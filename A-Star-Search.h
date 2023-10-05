@@ -20,6 +20,7 @@ enum State {
 void printBoard(vector<vector<State>> board);
 vector<vector<State>> ReadBoardFile(const string& filePath);
 vector<State> ParseLine(string line);
+vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]);
 
 
 

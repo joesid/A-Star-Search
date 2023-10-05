@@ -7,10 +7,20 @@ using namespace std;
 
 int main()
 {
+
+    vector <vector<State>> Board = ReadBoardFile("1.board");
+
+    int start[] = { 0,0 };
+
+    int goal[] = { 4,5 };
+
+    Search(Board, start, goal);
+
     printBoard(ReadBoardFile("1.board"));
 
-	return 0;
+    return 0;
 }
+
 
 void printBoard(vector<vector<State>> grid)
 {
@@ -86,4 +96,25 @@ vector<State> ParseLine(string line) {
 
     return result;
 
+}
+
+vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]) {
+
+    vector<vector<State>> solution;
+
+    vector<vector<int>> heuristic = { {9,8,7,6,5,4},
+                                      {8,7,6,5,4,3},
+                                      {7,6,5,4,3,2},
+                                      {6,5,4,3,2,1},
+                                      {5,4,3,2,1,0} };
+    
+    if (solution.empty())
+    {
+        cout << "No path found" << endl;
+    }
+    
+    
+    return solution;
+    
+   
 }
