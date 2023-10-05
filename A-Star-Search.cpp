@@ -98,9 +98,19 @@ vector<State> ParseLine(string line) {
 
 }
 
-vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]) {
+vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal[2]) {
+
+    vector<vector<int>> open = {};
 
     vector<vector<State>> solution;
+
+    // Initialize the starting node.
+    int x = start[0];
+    int y = start[1];
+    int g = 0;
+    int h = Heuristic(x, y, goal[0], goal[1]);
+
+    AddToOpen(x, y, g, h, open, solution);
 
     vector<vector<int>> heuristic = { {9,8,7,6,5,4},
                                       {8,7,6,5,4,3},
@@ -111,6 +121,10 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]
     if (solution.empty())
     {
         cout << "No path found" << endl;
+    }
+    else if (!solution.empty())
+    {
+
     }
     
     
