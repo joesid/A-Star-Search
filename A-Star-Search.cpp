@@ -149,3 +149,23 @@ void AddToOpen(int x, int y, int g, int h, vector<vector<int>>& open, vector<vec
     grid[x][y] = kClosed;
 
 }
+
+bool Compare(vector<int> node1, vector<int> node2)
+{
+    
+    // Extract g & h values from node1 
+    int g1 = node1[2];
+    int h1 = node1[3];
+    
+
+    //Extract g & h values from node2
+    int g2 = node2[2];
+    int h2 = node2[3];
+
+    // Calculate f values for node1 and node2 
+    int f1 = g1 + h1; 
+    int f2 = g2 + h2;
+
+    //Compare the f values and return the result
+    return f1 > f2;
+}
