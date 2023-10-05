@@ -14,13 +14,16 @@ using namespace std;
 enum State {
     // Define an enumeration to represent states in the grid.
     kEmpty,
-    kObstacle
+    kObstacle,
+    kClosed
 };
 
 void printBoard(vector<vector<State>> board);
 vector<vector<State>> ReadBoardFile(const string& filePath);
 vector<State> ParseLine(string line);
 vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]);
+int Heuristic(int x1,int y1,int x2, int y2);
+void AddToOpen(int x, int y, int g, int h, vector<vector<int>>& open, vector<vector<State>>& grid );
 
 
 

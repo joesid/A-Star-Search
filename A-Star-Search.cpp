@@ -118,3 +118,20 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[], int end[]
     
    
 }
+
+int Heuristic(int x1, int y1, int x2, int y2)
+{  
+    // Calculate Manhattan distance - (md)
+    int md = abs(x2 - x1) + abs(y2 - y1);
+
+    return md;
+}
+
+void AddToOpen(int x, int y, int g, int h, vector<vector<int>>& open, vector<vector<State>>& grid)
+{
+    vector<int> node = { x, y, g, h };
+    open.push_back(node);
+
+    grid[x][y] = kClosed;
+
+}
