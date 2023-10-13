@@ -195,3 +195,16 @@ bool Compare(vector<int> node1, vector<int> node2)
 void CellSort(vector<vector<int>>* v) {
     sort(v->begin(), v->end(), Compare);
 }
+
+bool CheckValidCell(int x, int y, vector<vector<State>>& board)
+{
+    bool x_grid = (x >= 0 && x < board.size());
+    bool y_grid = (y >= 0 && y < board[0].size());
+
+    if (x_grid && y_grid)
+    {
+        return board[x][y] == State::kEmpty;
+     }
+    
+    return false;
+}

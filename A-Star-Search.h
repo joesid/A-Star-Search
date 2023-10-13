@@ -28,6 +28,7 @@ int Heuristic(int x1,int y1,int x2, int y2);
 void AddToOpen(int x, int y, int g, int h, vector<vector<int>>& open, vector<vector<State>>& grid );
 bool Compare(vector<int> node1, vector<int> node2);
 void CellSort(vector<vector<int>>* v);
+bool CheckValidCell(int x, int y, vector<vector<State>>& board);
 
 
 // Function to convert State enum values to strings for display.
