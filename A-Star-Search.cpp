@@ -16,7 +16,7 @@ int main()
 
     Search(Board, start, goal);
 
-    printBoard(ReadBoardFile("1.board"));
+    //printBoard(ReadBoardFile("1.board"));
 
     return 0;
 }
@@ -102,7 +102,6 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal
 
     vector<vector<int>> open = {};
 
-    vector<vector<State>> solution;
 
     // Initialize the starting node.
     int x = start[0];
@@ -110,7 +109,7 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal
     int g = 0;
     int h = Heuristic(x, y, goal[0], goal[1]);
 
-    AddToOpen(x, y, g, h, open, solution);
+    AddToOpen(x, y, g, h, open, board);
 
     vector<vector<int>> heuristic = { {9,8,7,6,5,4},
                                       {8,7,6,5,4,3},
@@ -118,19 +117,42 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal
                                       {6,5,4,3,2,1},
                                       {5,4,3,2,1,0} };
     
-    if (solution.empty())
-    {
-        cout << "No path found" << endl;
-    }
-    else if (!solution.empty())
-    {
-
-    }
-    
-    
-    return solution;
     
    
+    // TODO: while open vector is non empty {
+    while (!open.empty())
+    {
+        // TODO: Sort the open list using `CellSort`, and get the current node.
+        CellSort(&open);
+        vector<int> currentNode = open.back();
+        open.pop_back();
+
+        // TODO: Get the x and y values from the current node,
+        x = currentNode[0];
+        y = currentNode[1];
+      
+     // and set grid[x][y] to kPath.
+      if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size())
+        {
+            board[x][y] = kPath;
+        }
+      else
+      {
+          cerr << "Error: Attempted to set an out-of-bounds cell to kPath." << endl;
+      }
+
+     // TODO: Check if you've reached the goal. If so, return grid
+     if(x == goal[0] && y == goal[1])
+     {
+         return board;
+     }
+     else
+     {
+         cout << "No path found! " << endl;
+     }
+        
+    }
+    
 }
 
 int Heuristic(int x1, int y1, int x2, int y2)
@@ -168,4 +190,8 @@ bool Compare(vector<int> node1, vector<int> node2)
 
     //Compare the f values and return the result
     return f1 > f2;
+}
+
+void CellSort(vector<vector<int>>* v) {
+    sort(v->begin(), v->end(), Compare);
 }
