@@ -31,6 +31,8 @@ void CellSort(vector<vector<int>>* v);
 bool CheckValidCell(int x, int y, vector<vector<State>>& board);
 
 
+const int delta[4][2]{{-1, 0},{0, -1}, {1,0},{0,1 }};
+
 // Function to convert State enum values to strings for display.
  string CellString(State val)
  {

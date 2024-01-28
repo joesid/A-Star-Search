@@ -111,17 +111,16 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal
 
     AddToOpen(x, y, g, h, open, board);
 
-    vector<vector<int>> heuristic = { {9,8,7,6,5,4},
-                                      {8,7,6,5,4,3},
-                                      {7,6,5,4,3,2},
-                                      {6,5,4,3,2,1},
-                                      {5,4,3,2,1,0} };
-    
-    
-   
+    vector<vector<int>> heuristic = {{9, 8, 7, 6, 5, 4},
+                                     {8, 7, 6, 5, 4, 3},
+                                     {7, 6, 5, 4, 3, 2},
+                                     {6, 5, 4, 3, 2, 1},
+                                     {5, 4, 3, 2, 1, 0}};
+
+
+
     // TODO: while open vector is non empty {
-    while (!open.empty())
-    {
+    while (!open.empty()) {
         // TODO: Sort the open list using `CellSort`, and get the current node.
         CellSort(&open);
         vector<int> currentNode = open.back();
@@ -130,81 +129,96 @@ vector<vector<State>> Search(vector<vector<State>> board, int start[2], int goal
         // TODO: Get the x and y values from the current node,
         x = currentNode[0];
         y = currentNode[1];
-      
-     // and set grid[x][y] to kPath.
-      if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size())
-        {
-            board[x][y] = kPath;
-        }
-      else
-      {
-          cerr << "Error: Attempted to set an out-of-bounds cell to kPath." << endl;
-      }
 
-     // TODO: Check if you've reached the goal. If so, return grid
-     if(x == goal[0] && y == goal[1])
-     {
-         return board;
-     }
-     else
-     {
-         cout << "No path found! " << endl;
-     }
-        
+        // and set grid[x][y] to kPath.
+        if (x >= 0 && x < board.size() && y >= 0 && y < board[0].size()) {
+            board[x][y] = kPath;
+        } else {
+            cerr << "Error: Attempted to set an out-of-bounds cell to kPath." << endl;
+        }
+
+        // TODO: Check if you've reached the goal. If so, return grid
+        if (x == goal[0] && y == goal[1]) {
+            return board;
+        } else {
+            cout << "No path found! " << endl;
+        }
+
     }
-    
+
+    return vector<vector<State>>();
 }
 
+
 int Heuristic(int x1, int y1, int x2, int y2)
-{  
+{
     // Calculate Manhattan distance - (md)
     int md = abs(x2 - x1) + abs(y2 - y1);
 
     return md;
 }
-
-void AddToOpen(int x, int y, int g, int h, vector<vector<int>>& open, vector<vector<State>>& grid)
+void AddToOpen(int x, int y, int g, int h, vector<vector<int>> &open, vector<vector<State>> &grid)
 {
-    vector<int> node = { x, y, g, h };
+    vector<int> node = {x, y, g, h};
     open.push_back(node);
 
     grid[x][y] = kClosed;
-
 }
 
-bool Compare(vector<int> node1, vector<int> node2)
-{
-    
-    // Extract g & h values from node1 
+bool Compare(vector<int> node1, vector<int> node2) {
+
+    // Extract g & h values from node1
     int g1 = node1[2];
     int h1 = node1[3];
-    
+
 
     //Extract g & h values from node2
     int g2 = node2[2];
     int h2 = node2[3];
 
-    // Calculate f values for node1 and node2 
-    int f1 = g1 + h1; 
+    // Calculate f values for node1 and node2
+    int f1 = g1 + h1;
     int f2 = g2 + h2;
 
     //Compare the f values and return the result
     return f1 > f2;
 }
 
-void CellSort(vector<vector<int>>* v) {
+void CellSort(vector<vector<int>> *v) {
     sort(v->begin(), v->end(), Compare);
 }
 
-bool CheckValidCell(int x, int y, vector<vector<State>>& board)
-{
+bool CheckValidCell(int x, int y, vector<vector<State>> &board) {
     bool x_grid = (x >= 0 && x < board.size());
     bool y_grid = (y >= 0 && y < board[0].size());
 
-    if (x_grid && y_grid)
-    {
+    if (x_grid && y_grid) {
         return board[x][y] == State::kEmpty;
-     }
-    
+    }
+
     return false;
+}
+
+
+void ExpandNeighbours(vector<int> &current, int goal[2], vector<vector<int>> &open_nodes, vector<vector<State>> &board) {
+
+    // Get current node's data.
+    int x = current[0];
+    int y = current[1];
+    int g = current[2];
+
+    // Loop through current node's potential neighbour
+    for (int i = 0; i < 4; i++) {
+        int x2 = x + delta[i][0];
+        int y2 = y + delta[i][1];
+
+
+        // check that the potential neighbour's x2 and y2 values are on the grid and not closed
+        //increment g value, compute h value, and add neighbor to open list.
+        if (CheckValidCell(x2, y2, board)) {
+            int g2 = g + 1;
+            int h2 = Heuristic(x2, y2, goal[0], goal[1]);
+            AddToOpen(x2, y2, g2, h2, open_nodes, board);
+        }
+    }
 }
